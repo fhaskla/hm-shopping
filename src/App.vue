@@ -1,32 +1,24 @@
 <template>
   <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
-    <router-view/>
+    <!--当访问 '/orders', '/address', '/addressEdit', '/addAddress' 这几个页面的时候几个组件会被缓存，因为会频繁切换-->
+    <keep-alive v-if="$route.meta.keepAlive">
+      <router-view :key="$route.fullPath"/>
+    </keep-alive>
+
+    <router-view v-if="!$route.meta.keepAlive"/>
   </div>
 </template>
 
+<script>
+export default {
+  data() {
+    return {
+      checked: true,
+    };
+  },
+};
+</script>
+
 <style lang="less">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
 
-nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
 </style>
